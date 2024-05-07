@@ -1,7 +1,6 @@
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 
-import { productValidator } from "../middlewares/productValidator";
 
 
 
@@ -28,6 +27,7 @@ export default class ProductManager {
     try{
       const product = {
         id: uuidv4(),
+        status: true,
         ...obj
       };
       const products = await this.getProducts();
