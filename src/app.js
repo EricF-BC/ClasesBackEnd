@@ -4,6 +4,8 @@ import  ProductManager from './manager/ProductManager.js';
 const productManager = new ProductManager('./products.json');
 const app = express();
 
+app.use(express.json());
+
 
 app.get('/products', async(req, res) =>{
 
@@ -23,7 +25,7 @@ app.get('/products', async(req, res) =>{
     } catch(err){
         res.status(500).json({message: err.message});
     }
-})
+});
 
 
 app.get('/products/:pid', async(req, res) =>{
@@ -38,7 +40,7 @@ app.get('/products/:pid', async(req, res) =>{
         res.status(500).json({message: err.message});
     }
 
-})
+});
 
 app.get('/products/:limit5', async(req, res) =>{
     try{
@@ -52,7 +54,46 @@ app.get('/products/:limit5', async(req, res) =>{
         res.status(500).json({message: err.message});
     }
 
+});
+
+app.post('/products/', async(req, res) =>{
+    try{
+        const newProduct = await productManager.createProduct(req.body);
+        if(!newProduct) res.status(404).json({message: "Error creating product"});
+        else res.status(200).json(newProduct) ;
+    }catch(err){
+        res.status(500).json({message: err.message});
+    }
 })
+
+
+app.put("/products/:pid", async(req, res) =>{
+    try{
+        const { pid } = req.params;
+        const productUpd = await productManager.updateProduct(req.body, pid);
+        if(!productUpd) res.status(404).json({message: "Error updating product"});
+        else res.status(200).json(productUpd) ;
+    }catch(err){
+        res.status(500).json({message: err.message});
+    }
+    
+});
+
+
+app.delete('/products/:pid', async(req, res) =>{
+    try{
+        const {pid} = req.params;
+        const delProduct = await productManager.deleteProduct(pid);
+        if(!delProduct) res.status(404).json({message: "error delete product"});
+        else res.status(200).json({msg: "Usuario eliminado correctamente"}) 
+    }catch(err){
+        res.status(500).json({message: err.message});
+    }
+    
+});
+
+
+
 
 const PORT = 8080
 
