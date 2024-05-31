@@ -6,6 +6,8 @@ import cartRouter from "./routes/cart.routes.js";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import { __dirname } from "./path.js";
+import { initMongoDB } from "./daos/mongodb/database.js";
+import { MessageModel } from "./daos/mongodb/models/chat.model.js";
 
 const app = express();
 
@@ -20,6 +22,13 @@ app.set("views", __dirname + "/views");
 
 app.use("/carts", cartRouter);
 app.use("/products", productRouter);
+
+initMongoDB();
+
+app.get("/chat", async (req, res) => {
+  res.render("chat");
+});
+
 
 let products = [];
 
@@ -60,6 +69,25 @@ const httpServer = app.listen(PORT, () =>
   console.log(`Server ok en puerto ${PORT}`)
 );
 const socketServer = new Server(httpServer);
+
+socketServer.on("connection", (socket) => {
+  console.log("Usuario conectado");
+
+  socket.on("newMessage", async (data) => {
+    const { user, message } = data;
+    try {
+      const chatMessage = new MessageModel({ user, message });
+      await chatMessage.save();
+      socket.emit("message", data);
+    } catch (error) {
+      console.error("Error saving message:", error);
+    }
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Usuario desconectado");
+  });
+});
 
 socketServer.on("connection", (socket) => {
   console.log(`Usuario conectado: ${socket.id}`);

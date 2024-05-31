@@ -1,7 +1,7 @@
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import { __dirname } from "../path.js";
-import ProductManager from "../manager/ProductManager.js";
+import ProductManager from "../daos/filesystem/product.dao.js";
 
 const productManager = new ProductManager(`${__dirname}/db/products.json`);
 

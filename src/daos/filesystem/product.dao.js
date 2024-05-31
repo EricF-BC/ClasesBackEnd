@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 
 
 
-export default class ProductManager {
+export default class ProductDaoFS {
   #priceBase = 0.15;
 
   constructor(path) {
