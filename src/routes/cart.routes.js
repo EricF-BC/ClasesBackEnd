@@ -5,8 +5,11 @@ import {
     getAllCarts,
     getCartByIdController,
     createCartController,
-    updateCartController,
-    deleteCartController
+    addProductToCart,
+    deleteCartController,
+    deleteProductFromCartController,
+    updateProdQuantityToCartController,
+    clearProductsFromCartController
 } from "../controllers/cart.controller.js";
 
 
@@ -17,7 +20,9 @@ const router = Router();
 
 router.get('/', getAllCarts);
 
-router.get('/:cid/product/:pid', updateCartController);
+router.get('/:cid', getCartByIdController)
+
+router.post('/:cid/product/:pid', addProductToCart);
 
 router.post('/', createCartController);
 
@@ -25,6 +30,11 @@ router.put('/addProduct', getCartByIdController);
 
 router.delete('/:cid', deleteCartController);
 
+router.delete('/:cid/product/:pid', deleteProductFromCartController)
+
+router.delete('/clear/:cid', clearProductsFromCartController)
+
+router.put('/:cid/product/:pid', updateProdQuantityToCartController)
 
 
 

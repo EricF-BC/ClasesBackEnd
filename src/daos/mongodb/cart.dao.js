@@ -13,9 +13,9 @@ export default class CartDaoMongoDB {
 
   async createCart() {
     try {
-      const newCart = new CartModel();
-      await newCart.save();
-      return newCart
+      return await CartModel.create({
+        products: [],
+      });
     } catch (err) {
       throw new Error(err);
     }
@@ -29,34 +29,85 @@ export default class CartDaoMongoDB {
     }
   }
 
-  async saveProducttoCart(idCart, idProduct, quantity) {
+  async addProductToCart(idCart, idProduct, quantity) {
     try {
-      let cart = await this.findById(idCart);
-      if (!cart) {
-          return res.status(404).json({ error: 'Cart not found' });
-      }
-
-      const productIndex = cart.products.findIndex(p => p.idProduct.toString() === idProduct);
-
-      if (productIndex > -1) {
-          cart.products[productIndex].quantity += quantity;
+      const cart = await CartModel.findById(idCart);
+      const productIndex = cart.products.findIndex(p => p.product.toString() === idProduct);
+      if (productIndex  !== -1) {
+          cart.products[productIndex].quantity = quantity;
       } else {
-          cart.products.push({ idProduct, quantity });
+          cart.products.push({ product: idProduct, quantity });
       }
+
       await cart.save();
+      return cart.products;
     } catch (err) {
       throw new Error(err);
     }
   }
 
 
-  async DeleteCart(id) {
+
+  async existProdInCart(cartId, prodId){
+    try {
+      return await CartModel.findOne({
+        _id: cartId,
+        products: { $elemMatch: { product: prodId}}
+
+      })
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+
+  async DeleteProductCart(cartId, prodId) {
+    try {
+      return await CartModel.findByIdAndUpdate(
+        {_id: cartId},
+        { $pull : { products: { product: prodId} } },
+        { new: true }
+      );
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+
+  
+  async updateProdQuantityToCart(cartId, prodId, quantity) {
+    try {
+      return await CartModel.findOneAndUpdate(
+        { _id: cartId, 'products.product': prodId },
+        { $set: { 'products.$.quantity': quantity } },
+        { new: true, runValidators: true }
+      );
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  async DeleteAllProductCart(id) {
     try {
       return await CartModel.findByIdAndDelete(id);
     } catch (err) {
       throw new Error(err);
     }
   }
+
+  async clearCart(cartId){
+    try{
+      return await CartModel.findByIdAndUpdate(
+        cartId,
+        { $set: { products: [] }},
+        {new: true}
+      )
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+
 }
 
 

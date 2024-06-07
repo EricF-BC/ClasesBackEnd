@@ -2,8 +2,10 @@ import { Schema, model } from "mongoose";
 
 const CartSchema = new Schema({
     products: [{
-        productID: { type: Schema.Types.ObjectId, ref: "Product", required: false},
-        quantity: { type: Number, required: false}
+        _id: false,
+        quantity: { type: Number, default: 1, required: false},
+        product: { type: Schema.Types.ObjectId, ref: "products", required: false}
+
     }]
 });
 

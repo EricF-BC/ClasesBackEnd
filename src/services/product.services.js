@@ -6,9 +6,9 @@ const prodDao = new ProductDaoMongoDB();
 // const prodDao = new ProductDaoFS(`${__dirname}/daos/filesystem/product.json`);
 
 
-export const getAll = async () => {
+export const getAll = async (page, limit, title, sort) => {
     try {
-        return await prodDao.getProducts();
+        return await prodDao.getProducts(page, limit, title, sort);
     } catch (e) {
         throw new Error(e);
     }

@@ -8,10 +8,15 @@ export default class ProductDaoMongoDB {
   //   this.collection = model(collection, schema);
   // }
 
-  async getProducts() {
+  async getProducts(page = 1 ,limit = 10, title, sort) {
     try {
       // return await this.collection.find({})
-      return await ProductModel.find({})
+      //return await ProductModel.find({})
+      const filter = title ? { 'title': title } : {};
+      let sortOrder = {};
+      if(sort) sortOrder.price = sort === 'asc' ? 1 : sort === 'desc' ? -1 : null;
+      const response = await ProductModel.paginate(filter, { page, limit, sort: sortOrder });
+      return response;
     } catch (err) {
       throw new Error(err);
     }
