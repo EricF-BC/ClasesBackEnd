@@ -14,6 +14,14 @@ export const getAll = async (page, limit, title, sort) => {
     }
 }
 
+export const getAllViews = async () => {
+    try {
+        return await prodDao.getProductsView();
+    } catch (e) {
+        throw new Error(e);
+    }
+}
+
 export const getByID = async (id) => {
     try {
         return await prodDao.getProductById(id);

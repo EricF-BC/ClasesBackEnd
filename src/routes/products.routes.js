@@ -1,17 +1,16 @@
 import { Router } from "express";
-// import ProductManager from "../manager/ProductManager.js";
-// import { __dirname } from "../path.js";
-// import { productValidator } from "../middlewares/productValidator.js";
+
 import {
     getAllProducts,
     getProductByIdController,
     createProductController,
     updateProductController,
-    deleteProductController
+    deleteProductController,
+    getAllProductsViews
 } from "../controllers/product.controller.js";
 
 const router = Router();
-// const productManager = new ProductManager(`${__dirname}/db/products.json`);
+
 
 router.get('/', getAllProducts);
 
@@ -23,6 +22,14 @@ router.put('/:pid', updateProductController);
 
 router.delete('/:pid', deleteProductController);
 
+
+
+// import ProductManager from "../manager/ProductManager.js";
+// import { __dirname } from "../path.js";
+// import { productValidator } from "../middlewares/productValidator.js";
+
+
+// const productManager = new ProductManager(`${__dirname}/db/products.json`);
 
 // router.get('/', async(req, res) =>{
 //     try{

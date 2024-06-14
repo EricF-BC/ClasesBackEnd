@@ -62,11 +62,20 @@ export const deleteProductController = async (req, res) => {
     try{
         const { pid } = req.params;
         const prodDel = await service.remove(pid);
-        console.log("HOLA");
         if (!prodDel) res.json({msg: 'Error deleting Product'});
         else res.json(prodDel);
     } catch(e){
         console.log(e);
+    }
+
+}
+
+
+export const getAllProductsViews = async (req, res) => {
+    try {
+        return await service.getAllViews();
+    } catch (error) {
+        throw new Error(error);
     }
 
 }

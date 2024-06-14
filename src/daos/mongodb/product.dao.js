@@ -60,4 +60,9 @@ export default class ProductDaoMongoDB {
 
   }
 
+  async getProductsView(){
+    const data = await ProductModel.find().lean();
+    return data;
+  }
+
 }

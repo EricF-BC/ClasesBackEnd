@@ -1,1 +1,3 @@
 MONGO_URL = "mongodb+srv://coderAdmin:EzIZ3fN0INHJI1Ku@clustercoderhouse.hr755xk.mongodb.net/CoderDB?retryWrites=true&w=majority&appName=ClusterCoderHouse"
+
+SECRET_KEY = "1234"
