@@ -9,16 +9,22 @@ export default class UserDao {
             const existUser = await this.model.findOne({ email });
             if(!existUser) return await this.model.create(user);
             else return null;
-                
-            
         } catch (error) {
             
         }
     };
 
-    async login(email, password){
+    async getById(id) {
         try {
-            return await this.model.findOne({ email, password });
+          return await this.model.findById(id);
+        } catch (error) {
+          throw new Error(error);
+        }
+      }
+
+    async getByEmail(email){
+        try {
+            return await this.model.findOne({ email });
         } catch (error) {
             
         }

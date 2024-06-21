@@ -15,6 +15,9 @@ import loginRouter from "./routes/login.routes.js";
 import viewsRouter from "./routes/views.routes.js";
 import session from 'express-session';
 import userRouter from "./routes/user.routes.js";
+import passport from 'passport';
+import "./passport/local-strategy.js";
+import "./passport/github-strategy.js"
 
 const app = express();
 
@@ -37,6 +40,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(session(storeConfig));
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(morgan("dev"));
 app.use(express.static(__dirname + "/public"));
 
@@ -52,6 +58,10 @@ app.use("/products", productRouter);
 app.use('/login', loginRouter);
 app.use('/views', viewsRouter);
 app.use('/users', userRouter)
+
+app.get('/', (req, res) => {
+  res.redirect('/views/login');
+})
 
 app.get("/chat", async (req, res) => {
   res.render("chat");
