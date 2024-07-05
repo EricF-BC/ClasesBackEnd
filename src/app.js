@@ -1,23 +1,18 @@
 import express from "express";
 import morgan from "morgan";
-import fs from "fs";
-import productRouter from "./routes/products.routes.js";
-import cartRouter from "./routes/cart.routes.js";
+import indexRouter from "./routes/index.routes.js";
 import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import { __dirname } from "./path.js";
 import MongoStore from 'connect-mongo';
 import { initMongoDB } from "./daos/mongodb/database.js";
-import { MessageModel } from "./daos/mongodb/models/chat.model.js";
 import cookieParser from "cookie-parser";
 import 'dotenv/config'
-import loginRouter from "./routes/login.routes.js";
-import viewsRouter from "./routes/views.routes.js";
 import session from 'express-session';
-import userRouter from "./routes/user.routes.js";
 import passport from 'passport';
 import "./passport/local-strategy.js";
 import "./passport/github-strategy.js"
+import "./passport/google-strategy.js";
 
 const app = express();
 
@@ -53,11 +48,7 @@ app.set("views", __dirname + "/views");
 
 initMongoDB();
 
-app.use("/carts", cartRouter);
-app.use("/products", productRouter);
-app.use('/login', loginRouter);
-app.use('/views', viewsRouter);
-app.use('/users', userRouter)
+app.use("/", indexRouter);
 
 app.get('/', (req, res) => {
   res.redirect('/views/login');

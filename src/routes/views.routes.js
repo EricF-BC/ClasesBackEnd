@@ -14,12 +14,12 @@ router.get('/register', (req, res) => {
 })
 
 router.get('/profile', (req, res) => {
-    console.log(req.session)
     res.render('profile')
 })
 
 router.get('/products', async (req, res) => {
     const products = await getAllProductsViews()
+    console.log(req.session)
     const data =  {"email" : req.session.email,
         products
     }

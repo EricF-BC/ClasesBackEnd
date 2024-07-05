@@ -30,13 +30,17 @@ const registerOrLogin = async(accessToken, refreshToken, profile, done) => {
 passport.use('github', new GithubStrategy(strategyConfig, registerOrLogin));
 
 passport.serializeUser((user, done) => {
-    done(null, user._id)
-})
-passport.deserializeUser(async(id, done) =>{
-    try{
-        const user = await services.getUserById(id);
+    done(null, { id: user._id, email: user.email });
+});
+
+passport.deserializeUser(async (userObj, done) => {
+    try {
+        const user = await services.getUserById(userObj.id);
+        if (user) {
+            user.email = userObj.email; // Añadir el correo electrónico al objeto del usuario
+        }
         return done(null, user);
-    } catch (error){
-        done(error)
+    } catch (error) {
+        done(error);
     }
-})
+});

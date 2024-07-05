@@ -5,7 +5,7 @@ export const registerController = (req, res, next) => {
   try {
     res.redirect("/views/login");
   } catch (error) {
-    next(error);
+    throw(error);
   }
 }
 
@@ -19,6 +19,7 @@ export const loginController = async (req, res, next) => {
     }
     const user = await services.getUserById(id);
     if(!user) res.status(401).json({ msg: "Error de autenticacion"});
+    req.session.email = user.email;
     res.redirect("/views/products");
     // const { first_name, last_name, email, age, role} = user;
     // res.json({
@@ -32,15 +33,7 @@ export const loginController = async (req, res, next) => {
     //   }
     // });
   } catch (error) {
-    next(error);
-  }
-}
-
-export const githubResponse = async (req, res, next) => {
-  try {
-    
-  } catch (error) {
-    next(error);
+    throw(error);
   }
 }
 
@@ -48,3 +41,15 @@ export const logout = (req, res) => {
   req.session.destroy();
   res.redirect("/views/login");
 };
+
+
+export const googleResponse = async(req, res) => {
+  try {
+    const { first_name, last_name, email, role} = req.user;
+    req.session.email = email;
+    res.redirect("/views/login");
+
+  } catch (error) {
+    throw(error);
+  }
+}

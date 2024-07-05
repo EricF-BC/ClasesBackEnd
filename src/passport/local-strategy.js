@@ -27,10 +27,9 @@ const login = async (req, email, password, done) => {
         if(!userLogin){
             req.session.destroy()
             return done(null, false, { message: 'Error Autenticacion' });
-        } 
+        }
         return done(null, userLogin)
     } catch (error) {
-        console.log(error)
         return done(error)
     }
 };

@@ -11,7 +11,8 @@ const UserSchema = new Schema({
     },  
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true 
     },
     age: {
         type: Number,
@@ -28,7 +29,17 @@ const UserSchema = new Schema({
     isGithub: {
         type: Boolean,
         default: false
+    },
+    isGoogle: {
+        type: Boolean,
+        default: false
+    },
+    cartId: {
+        type: Schema.Types.ObjectId,
+        ref: 'cart', 
+        required: false
     }
+
 
 });
 
