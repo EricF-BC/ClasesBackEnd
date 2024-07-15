@@ -28,16 +28,16 @@ router.get('/profile', passport.authenticate('google', {
     passReqToCallback: true
 }));
 
-router.get('/:email',(req, res) => {
-    const emailRegex = /\S+@\S+\.\S+/
-    const { email } = req.params;
-    console.log(email)
-    if (email.match(emailRegex)){
-        res.send('Email Valido')
-    }else{
-        res.status(404).send('Email Invalido')
-    }
-})
+// router.get('/:email',(req, res) => {
+//     const emailRegex = /\S+@\S+\.\S+/
+//     const { email } = req.params;
+//     console.log(email)
+//     if (email.match(emailRegex)){
+//         res.send('Email Valido')
+//     }else{
+//         res.status(404).send('Email Invalido')
+//     }
+// })
 
 
 

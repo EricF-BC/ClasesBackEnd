@@ -1,8 +1,8 @@
-import UserDao from "../daos/mongodb/user.dao.js";
-import { UserModel } from "../daos/mongodb/models/user.model.js";
 import { createHash, isValidPassword } from "../path.js";
+import persistence from '../daos/persistence.js';
+import config from "../config.js";
 
-const userDao = new UserDao(UserModel);
+const { userDao } = persistence;
 
 export const getUserById = async (id) => {
   try {
@@ -39,7 +39,7 @@ export const register = async (user) => {
     const { email, password } = user;
     const existUser = await getUserByEmail(email);
     if (!existUser) {
-      if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
+      if (email === config.USER_ADMIN && password === config.PASSWORD_ADMIN) {
         const newUser = await userDao.register({
           ...user,
           password: createHash(password),

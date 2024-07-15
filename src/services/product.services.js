@@ -1,10 +1,5 @@
-import ProductDaoMongoDB from "../daos/mongodb/product.dao.js";
-const prodDao = new ProductDaoMongoDB();
-
-// import {__dirname} from '../path.js';
-// import ProductDaoFS from '../daos/filesystem/product.dao.js';
-// const prodDao = new ProductDaoFS(`${__dirname}/daos/filesystem/product.json`);
-
+import persistence from '../daos/persistence.js';
+const { prodDao } = persistence;
 
 export const getAll = async (page, limit, title, sort) => {
     try {

@@ -7,28 +7,32 @@ import { __dirname } from "./path.js";
 import MongoStore from 'connect-mongo';
 import { initMongoDB } from "./daos/mongodb/database.js";
 import cookieParser from "cookie-parser";
-import 'dotenv/config'
 import session from 'express-session';
 import passport from 'passport';
 import "./passport/local-strategy.js";
 import "./passport/github-strategy.js"
 import "./passport/google-strategy.js";
+import config from "./config.js";
+// import { Command } from 'commander';
+
 
 const app = express();
 
 const storeConfig = {
   store:  MongoStore.create({
-    mongoUrl: process.env.MONGO_URL,
+    mongoUrl: config.MONGO_URL,
     // crypto: {secret: process.env.SECRET_KEY },
     ttl: 180
   }),
-  secret: process.env.SECRET_KEY,
+  secret: config.SECRET_KEY,
   resave: false,
   saveUninitialized: true,
   cookie: {
     maxAge: 180000
   }
 }
+
+const PORT = config.PORT;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -45,7 +49,6 @@ app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
 app.set("views", __dirname + "/views");
 
-
 initMongoDB();
 
 app.use("/", indexRouter);
@@ -58,7 +61,6 @@ app.get("/chat", async (req, res) => {
   res.render("chat");
 });
 
-const PORT = 8080;
 const httpServer = app.listen(PORT, () =>
   console.log(`Server ok en puerto ${PORT}`)
 );
