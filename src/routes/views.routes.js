@@ -19,8 +19,9 @@ router.get('/profile', (req, res) => {
 
 router.get('/products', async (req, res) => {
     const products = await getAllProductsViews()
-    console.log(req.session)
-    const data =  {"email" : req.session.email,
+    const data =  {
+        "email" : req.session.email,
+        "role" : req.session.role,
         products
     }
     res.render('products', data)

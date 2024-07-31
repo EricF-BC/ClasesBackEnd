@@ -2,7 +2,7 @@ import { createHash, isValidPassword } from "../path.js";
 import persistence from '../daos/persistence.js';
 import config from "../config.js";
 
-const { userDao } = persistence;
+const { userDao, cartDao } = persistence;
 
 export const getUserById = async (id) => {
   try {
@@ -35,21 +35,23 @@ export const login = async (user) => {
 
 export const register = async (user) => {
   try {
-    console.log(user)
     const { email, password } = user;
     const existUser = await getUserByEmail(email);
     if (!existUser) {
+      const cartUser = await cartDao.createCart();
       if (email === config.USER_ADMIN && password === config.PASSWORD_ADMIN) {
         const newUser = await userDao.register({
           ...user,
           password: createHash(password),
           role: "admin",
+          cart: cartUser._id,
         });
         return newUser;
       } else {
         const newUser = await userDao.register({
           ...user,
           password: createHash(password),
+          cartId: cartUser._id,
         });
         return newUser;
       }

@@ -12,5 +12,13 @@ export default {
     CALLBACK_URL_GOOGLE: process.env.CALLBACK_URL_GOOGLE,
     PORT: process.env.PORT,
     USER_ADMIN: process.env.USER_ADMIN,
-    PASSWORD_ADMIN: process.env.PASSWORD_ADMIN
+    PASSWORD_ADMIN: process.env.PASSWORD_ADMIN,
+    HOST: process.env.HOST,
+    USER_MAIL: process.env.USER_MAIL,
+    PASSWORD_MAIL: process.env.PASSWORD_MAIL,
+    NAME_MAIL: process.env.NAME_MAIL,
+    PORT_MAIL: process.env.PORT_MAIL,
+    EMAIL_GMAIL: process.env.EMAIL_GMAIL,
+    PORT_GMAIL: process.env.PORT_GMAIL,
+    PASS_GMAIL: process.env.PASS_GMAIL
 }

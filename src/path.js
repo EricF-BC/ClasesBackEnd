@@ -13,3 +13,7 @@ export const createHash = (password) => {
 createHash('1234')
 
 export const isValidPassword = (password, user) => bcrypt.compareSync(password, user.password);
+
+export const createResponse = (res, statusCode, data) => {
+    return res.status(statusCode).json({data})
+}

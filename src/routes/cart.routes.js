@@ -11,6 +11,7 @@ import {
     updateProdQuantityToCartController,
     clearProductsFromCartController
 } from "../controllers/cart.controller.js";
+import { isAuthSession } from "../middlewares/isAuth.js";
 
 
 const router = Router();
@@ -22,7 +23,7 @@ router.get('/', getAllCarts);
 
 router.get('/:cid', getCartByIdController)
 
-router.post('/:cid/product/:pid', addProductToCart);
+router.post('/product/:pid', [ isAuthSession ] ,addProductToCart);
 
 router.post('/', createCartController);
 

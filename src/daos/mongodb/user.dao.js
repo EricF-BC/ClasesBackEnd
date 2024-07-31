@@ -16,7 +16,7 @@ export default class UserDao {
 
     async getById(id) {
         try {
-          return await this.model.findById(id);
+          return await this.model.findById(id).populate("cartId");
         } catch (error) {
           throw new Error(error);
         }

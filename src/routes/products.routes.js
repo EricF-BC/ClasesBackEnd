@@ -1,5 +1,6 @@
 import { Router } from "express";
-
+import { checkAdmin } from "../middlewares/checkAdmin.js"
+import { isAuth, isAuthSession } from "../middlewares/isAuth.js";
 import {
     getAllProducts,
     getProductByIdController,
@@ -9,18 +10,18 @@ import {
     getAllProductsViews
 } from "../controllers/product.controller.js";
 
-const router = Router();
 
+const router = Router();
 
 router.get('/', getAllProducts);
 
 router.get('/:pid', getProductByIdController);
 
-router.post('/', createProductController);
+router.post('/', [ isAuthSession, checkAdmin ] , createProductController);
 
-router.put('/:pid', updateProductController);
+router.put('/:pid', [ checkAdmin ] , updateProductController);
 
-router.delete('/:pid', deleteProductController);
+router.delete('/:pid', [ checkAdmin ] , deleteProductController);
 
 
 

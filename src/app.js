@@ -51,6 +51,7 @@ app.set("views", __dirname + "/views");
 
 initMongoDB();
 
+
 app.use("/", indexRouter);
 
 app.get('/', (req, res) => {

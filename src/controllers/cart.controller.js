@@ -34,9 +34,9 @@ export const createCartController = async (req, res) => {
 
 export const addProductToCart = async (req, res) => {
     try{
-        const { cid } = req.params;
+        const { cartId } = req.session.user;
         const { pid } = req.params;
-        const newProdToUserCart = await service.addProductToCart(cid, pid);
+        const newProdToUserCart = await service.addProductToCart(cartId._id, pid);
         console.log(newProdToUserCart);
         if (!newProdToUserCart) res.json({msg: 'Product or cart not found'});
         return res.json({msg: 'Producto agregado'})
