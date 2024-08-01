@@ -1,8 +1,8 @@
 import { createHash, isValidPassword } from "../path.js";
-import persistence from '../daos/persistence.js';
+import factory from '../persistence/daos/factory.js';
 import config from "../config.js";
 
-const { userDao, cartDao } = persistence;
+const { userDao, cartDao } = factory;
 
 export const getUserById = async (id) => {
   try {

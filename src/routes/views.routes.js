@@ -1,7 +1,6 @@
 import { Router } from 'express';
-import {
-    getAllProductsViews
-} from "../controllers/product.controller.js";
+import ProductController from "../controllers/product.controller.js";
+const controller = new ProductController();
 
 const router = Router();
 
@@ -18,7 +17,7 @@ router.get('/profile', (req, res) => {
 })
 
 router.get('/products', async (req, res) => {
-    const products = await getAllProductsViews()
+    const products = await controller.getAllProductsViews()
     const data =  {
         "email" : req.session.email,
         "role" : req.session.role,

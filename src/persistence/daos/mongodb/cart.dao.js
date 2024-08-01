@@ -1,14 +1,9 @@
 import { CartModel } from "./models/cart.model.js";
-import ProductDaoMongoDB from "./product.dao.js";
+import MongoDao from "./mongo.dao.js";
 
-export default class CartDaoMongoDB {
-
-  async getAllCarts() {
-    try {
-      return await CartModel.find({})
-    } catch (err) {
-      throw new Error(err);
-    }
+export default class CartDaoMongoDB extends MongoDao {
+  constructor() {
+    super(CartModel);
   }
 
   async createCart() {
@@ -21,13 +16,6 @@ export default class CartDaoMongoDB {
     }
   }
 
-  async getCartById(id) {
-    try {
-      return await CartModel.findById(id);
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
 
   async addProductToCart(idCart, idProduct, quantity) {
     try {
@@ -87,13 +75,6 @@ export default class CartDaoMongoDB {
     }
   }
 
-  async DeleteAllProductCart(id) {
-    try {
-      return await CartModel.findByIdAndDelete(id);
-    } catch (err) {
-      throw new Error(err);
-    }
-  }
 
   async clearCart(cartId){
     try{

@@ -1,53 +1,40 @@
-import persistence from '../daos/persistence.js';
-const { prodDao } = persistence;
+import factory from '../persistence/daos/factory.js';
+import Services from './class.services.js';
+import ProductRepository from '../persistence/repository/product.repository.js';
 
-export const getAll = async (page, limit, title, sort) => {
-    try {
-        return await prodDao.getProducts(page, limit, title, sort);
-    } catch (e) {
-        throw new Error(e);
+const { prodDao } = factory;
+const prodRepository = new ProductRepository();
+
+export default class ProductServices extends Services {
+    constructor(){
+        super(prodDao);
     }
-}
 
-export const getAllViews = async () => {
-    try {
-        return await prodDao.getProductsView();
-    } catch (e) {
-        throw new Error(e);
+    createProd = async(prod) =>{
+        try {
+            return await prodRepository.createProd(prod);
+        } catch (error) {
+            throw new Error(error);
+        }
     }
-}
 
-export const getByID = async (id) => {
-    try {
-        return await prodDao.getProductById(id);
-    } catch (e) {
-        throw new Error(e);
+    getAllViews = async () => {
+        try {
+            return await prodDao.getProductsView();
+        } catch (e) {
+            throw new Error(e);
+        }
     }
-}
 
-
-export const create = async (obj) => {
-    try {
-        return await prodDao.createProduct(obj);
-    } catch (e) {
-        throw new Error(e);
+    getProdById = async(id) => {
+        try {
+            return await prodRepository.getProdById(id);
+        } catch (error) {
+            throw new Error(error);
+        }
     }
-}
 
 
-export const update = async (id, obj) => {
-    try {
-        return await prodDao.updateProduct(id, obj);
-    } catch (e) {
-        throw new Error(e);
-    }
 }
 
 
-export const remove = async (id) => {
-    try {
-        return await prodDao.deleteProduct(id);
-    } catch (e) {
-        throw new Error(e);
-    }
-}

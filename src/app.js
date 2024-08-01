@@ -5,7 +5,7 @@ import handlebars from "express-handlebars";
 import { Server } from "socket.io";
 import { __dirname } from "./path.js";
 import MongoStore from 'connect-mongo';
-import { initMongoDB } from "./daos/mongodb/database.js";
+import { initMongoDB } from "./persistence/daos/mongodb/database.js";
 import cookieParser from "cookie-parser";
 import session from 'express-session';
 import passport from 'passport';
