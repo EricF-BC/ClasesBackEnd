@@ -59,7 +59,10 @@ app.get('/', (req, res) => {
 })
 
 app.get("/chat", async (req, res) => {
-  res.render("chat");
+  if (req.session.role === 'user'){
+    res.render("chat");
+  }
+  
 });
 
 const httpServer = app.listen(PORT, () =>
