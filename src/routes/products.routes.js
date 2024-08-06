@@ -12,6 +12,8 @@ router.get('/:id', controller.getProdById);
 
 router.post('/', [ isAuthSession, checkAdmin ] , controller.createProd);
 
+router.post('/createmock', [ isAuthSession, checkAdmin ], controller.createProductMock);
+
 router.put('/:id', [ checkAdmin ] , controller.update);
 
 router.delete('/:id', [ checkAdmin ] , controller.delete);

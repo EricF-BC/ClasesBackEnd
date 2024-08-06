@@ -9,6 +9,15 @@ export default class ProductController extends Controllers {
         super(prodService);
     }
 
+    createProductMock = async (req, res) => {
+        try {
+            const { cant } = req.query
+            res.json(await this.service.createProductMock(cant));
+        } catch (error) {
+            throw new Error(error)
+        }
+    }
+
     createProd = async(req, res) => {
         try {
             const newProd = await this.service.createProd(req.body);
