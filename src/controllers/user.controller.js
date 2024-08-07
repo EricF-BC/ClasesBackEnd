@@ -1,5 +1,6 @@
-import { createResponse } from "../path.js";
+import { HttpResponse } from "../utils/http.response.js";
 import * as services from "../services/user.services.js";
+const httpResponse = new HttpResponse();
 
 export const registerController = (req, res, next) => {
   try {
@@ -82,8 +83,8 @@ export const profileController = async (req, res, next) => {
   try {
     if (req.session) {
       const user = req.session.user;
-      createResponse(res, 200, user);
-    } else createResponse(res, 401, { msg: "Unhautorized" });
+      return httpResponse.Ok(res, data);
+    } else return httpResponse.Unauthorized(res, data);
   } catch (error) {
     next(error);
   }

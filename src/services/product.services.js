@@ -11,7 +11,7 @@ export default class ProductServices extends Services {
         super(prodDao);
     }
 
-    createProductMock = async(cant = 1) => {
+    createProductMock = async(cant = 100) => {
         try {
             const productArray = [];
             for (let i = 0; i <cant; i++) {

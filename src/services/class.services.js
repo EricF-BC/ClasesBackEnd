@@ -7,7 +7,7 @@ export default class Services {
     try {
       return await this.dao.getAll();
     } catch (error) {
-      throw new Error(error);
+      throw new Error("ERROR AL EJECUTAR UN SERVICIO");
     }
   }
 

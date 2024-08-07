@@ -3,19 +3,19 @@ import config from "../config.js";
 import { template } from '../services/email.template.js';
 
 
-export const sendMailEthereal = async(req, res) => {
+export const sendMailEthereal = async(req, res, next) => {
     try {
         const response = await transporter.sendMail(mailOptionsEthereal);
         // const response = await transporter.sendMail(mailOptionsEtherealHandlebars);
         console.log('email enviado!');
         res.json(response)
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 }
 
 
-export const sendGmail = async(req, res) => {
+export const sendGmail = async(req, res, next) => {
     try {
         const { dest, name } = req.body;
         const gmailOptions = {
@@ -29,6 +29,6 @@ export const sendGmail = async(req, res) => {
         console.log('email enviado!');
         res.json(response)
     } catch (error) {
-        console.log(error);
+        next(error);
     }
 }

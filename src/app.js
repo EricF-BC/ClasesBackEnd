@@ -13,6 +13,7 @@ import "./passport/local-strategy.js";
 import "./passport/github-strategy.js"
 import "./passport/google-strategy.js";
 import config from "./config.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 // import { Command } from 'commander';
 
 
@@ -50,9 +51,8 @@ app.set("view engine", "handlebars");
 app.set("views", __dirname + "/views");
 
 initMongoDB();
-
-
 app.use("/", indexRouter);
+app.use(errorHandler)
 
 app.get('/', (req, res) => {
   res.redirect('/views/login');

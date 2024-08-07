@@ -7,30 +7,29 @@ export default class CartController extends Controllers {
     constructor(){
         super(cartService);
     }
-    getCartByIdController = async (req, res) => {
+    getCartByIdController = async (req, res, next) => {
         try{
-            console.log(req.params);
             const { cid } = req.params;
             const cart = await this.service.getByID(cid);
             if (!cart) res.json({msg: 'cart not found'});
             res.json(cart);
-        } catch(e){
-            console.log(e);
+        } catch(error){
+            next(error);
         }
     }
     
-    createCartController = async (req, res) => {
+    createCartController = async (req, res, next) => {
         try{
             const newCart = await this.service.create();
             if (!newCart) res.json({msg: 'Error creating Cart'});
             else res.json(newCart);
-        } catch(e){
-            console.log(e);
+        } catch(error){
+            next(error);
         }
     
     }
     
-    addProductToCart = async (req, res) => {
+    addProductToCart = async (req, res, next) => {
         try{
             const { cartId } = req.session.user;
             const { id } = req.params;
@@ -38,15 +37,15 @@ export default class CartController extends Controllers {
             console.log(newProdToUserCart);
             if (!newProdToUserCart) res.json({msg: 'Product or cart not found'});
             return res.json({msg: 'Producto agregado'})
-        } catch(e){
-            console.log(e);
+        } catch(error){
+            next(error);
         }
     
     }
     
     
     
-    deleteProductFromCartController = async (req, res) => {
+    deleteProductFromCartController = async (req, res, next) => {
         try{
             const { cid } = req.params;
             const { pid } = req.params;
@@ -55,14 +54,14 @@ export default class CartController extends Controllers {
             if (!delProdToUserCart) res.json({msg: 'Error  to remove Product from Cart'});
             else res.json({msg: `Successfully deleted ${pid} Product`});
     
-        } catch(e){
-            console.log(e);
+        } catch(error){
+            next(error);
         }
     
     }
     
     
-    updateProdQuantityToCartController = async (req, res) => {
+    updateProdQuantityToCartController = async (req, res, next) => {
         try{
             const { cid } = req.params;
             const { pid } = req.params;
@@ -72,8 +71,8 @@ export default class CartController extends Controllers {
             if (!updateProdToUserCart) res.json({msg: 'Error to update Product from Cart'});
             else res.json({msg: `Successfully updated ${pid} Product`});
     
-        } catch(e){
-            console.log(e);
+        } catch(error){
+            next(error);
         }
     
     }
