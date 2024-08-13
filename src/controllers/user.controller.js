@@ -20,7 +20,6 @@ export const loginController = async (req, res, next) => {
     if (!user) res.status(401).json({ msg: "Error de autenticacion" });
     req.session.email = user.email;
     req.session.role = user.role;
-    console.log(req.session.role);
     res.redirect("/views/products");
     // const { first_name, last_name, email, age, role} = user;
     // res.json({

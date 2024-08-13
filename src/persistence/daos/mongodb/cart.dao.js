@@ -84,7 +84,7 @@ export default class CartDaoMongoDB extends MongoDao {
         {new: true}
       )
     } catch (err) {
-      console.log(err);
+      throw new Error(err);
     }
   }
 

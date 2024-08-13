@@ -1,5 +1,6 @@
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
+import { logger } from '../../../utils/logger.js';
 
 export default class ProductDaoFS {
   #priceBase = 0.15;
@@ -15,7 +16,7 @@ export default class ProductDaoFS {
         return JSON.parse(products);
       } else return [];
     } catch (err) {
-      console.log(err);
+      logger.error(err);
     }
   }
 
@@ -33,7 +34,7 @@ export default class ProductDaoFS {
       await fs.promises.writeFile(this.path, JSON.stringify(products));
       return product;
     }catch(err){
-      console.log(error);
+      logger.error(err);
     }
 
   }
@@ -43,7 +44,7 @@ export default class ProductDaoFS {
   async getProductById(pid) {
     const products = await this.getProducts();
     const product = products.find((p) => p.id === parseInt(pid));
-    console.log(product);
+    logger.info(product);
     if (product) {
       return product;
     } else {
@@ -59,12 +60,11 @@ export default class ProductDaoFS {
       if (!productExist) return "Product not found";
       productExist = { ...productExist, ...obj};
       const newArray = products.filter((p) => p.id !== parseInt(id));
-      console.log(newArray);
       newArray.push(productExist);
       await fs.promises.writeFile(this.path, JSON.stringify(newArray));   
       return productExist;
     }catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 

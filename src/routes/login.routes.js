@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { logger } from '../utils/logger.js';
 
 const router = Router();
 
@@ -9,7 +10,7 @@ router.post('/', (req, res) => {
 
 router.get('/get-cookie', (req, res) => {
     const usuario = req.cookies;
-    console.log(usuario)
+    logger.info(usuario)
 })  
 
 export default router

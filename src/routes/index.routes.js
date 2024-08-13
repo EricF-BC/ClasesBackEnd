@@ -7,6 +7,7 @@ import userRouter from "./user.routes.js";
 import sessionRouter from "./session.routes.js";
 import emailRouter from "./email.routes.js";
 import ticketRouter from "./ticket.routes.js";
+import loggerRouter from "./logger.routes.js";
 
 const router = Router();
 
@@ -18,6 +19,7 @@ router.use('/users', userRouter);
 router.use("/api/sessions", sessionRouter);
 router.use('/email', emailRouter)
 router.use('/ticket', ticketRouter)
+router.use('/loggerTest', loggerRouter)
 
 
 

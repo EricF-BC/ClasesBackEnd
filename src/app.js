@@ -1,4 +1,5 @@
 import express from "express";
+import dotenv from 'dotenv'
 import morgan from "morgan";
 import indexRouter from "./routes/index.routes.js";
 import handlebars from "express-handlebars";
@@ -14,8 +15,7 @@ import "./passport/github-strategy.js"
 import "./passport/google-strategy.js";
 import config from "./config.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
-// import { Command } from 'commander';
-
+import { logger } from "./utils/logger.js";
 
 const app = express();
 
@@ -66,7 +66,7 @@ app.get("/chat", async (req, res) => {
 });
 
 const httpServer = app.listen(PORT, () =>
-  console.log(`Server ok en puerto ${PORT}`)
+  logger.info(`Server ok en puerto ${PORT}`)
 );
 const socketServer = new Server(httpServer);
 

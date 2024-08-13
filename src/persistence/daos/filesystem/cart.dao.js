@@ -2,6 +2,7 @@ import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import { __dirname } from "../path.js";
 import ProductManager from "../daos/filesystem/product.dao.js";
+import { logger } from '../../../utils/logger.js';
 
 const productManager = new ProductManager(`${__dirname}/db/products.json`);
 
@@ -16,7 +17,7 @@ export default class CartManager {
         const carts = await fs.promises.readFile(this.path, "utf-8");
         if (carts.trim() === "") {
           await fs.promises.writeFile(this.path, "[]", "utf8");
-          console.log("Se añadieron [] al archivo.");
+          logger.info("Se añadieron [] al archivo.");
           return [];
         } else {
           const cartsJSON = JSON.parse(carts);
@@ -48,9 +49,7 @@ export default class CartManager {
   async getCartById(id) {
     try {
       const carts = await this.getAllCarts();
-      console.log(id);
       const cart = carts.find((c) => c.id === id);
-      console.log(cart);
       if (cart) {
         return cart;
       } else {
@@ -63,8 +62,8 @@ export default class CartManager {
 
   async saveProducttoCart(idCart, idProduct) {
     try {
-        console.log(idProduct);
-        console.log(idCart);
+      logger.info(idProduct);
+      logger.info(idCart);
       const prodExists = await productManager.getProductById(idProduct);
       if (!prodExists) throw new Error("Product not found");
       let cartExists = await this.getCartById(idCart);

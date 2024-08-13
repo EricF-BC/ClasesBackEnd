@@ -34,7 +34,6 @@ export default class CartController extends Controllers {
             const { cartId } = req.session.user;
             const { id } = req.params;
             const newProdToUserCart = await this.service.addProductToCart(cartId._id, id);
-            console.log(newProdToUserCart);
             if (!newProdToUserCart) res.json({msg: 'Product or cart not found'});
             return res.json({msg: 'Producto agregado'})
         } catch(error){

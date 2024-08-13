@@ -37,7 +37,6 @@ export default class TicketService extends Services {
       });
 
       await cartService.clearProductsFromCart(user.cartId._id);
-      console.log(ticket);
       return ticket;
     } catch (error) {
       throw new Error(error);
