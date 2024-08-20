@@ -4,5 +4,6 @@ export default class ProductDTO {
         this.description = product.descripcion || product.description;
         this.price = product.precio || product.price;
         this.stock = product.disponibilidad || product.stock;
+        this.owner = product.dueño || product.owner;
     }
 }

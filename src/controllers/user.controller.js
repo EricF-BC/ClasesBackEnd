@@ -21,17 +21,6 @@ export const loginController = async (req, res, next) => {
     req.session.email = user.email;
     req.session.role = user.role;
     res.redirect("/views/products");
-    // const { first_name, last_name, email, age, role} = user;
-    // res.json({
-    //   msg: 'Login Ok',
-    //   user: {
-    //     first_name,
-    //     last_name,
-    //     email,
-    //     age,
-    //     role
-    //   }
-    // });
   } catch (error) {
     throw error;
   }
@@ -88,3 +77,17 @@ export const profileController = async (req, res, next) => {
     next(error);
   }
 };
+
+
+export const updatePremiumController = async (req, res, next) => {
+  try {
+    if (req.session) {
+      const { uid } = req.params;
+      const userUpdate = await services.updatePremium(uid);
+      return httpResponse.Ok(res, userUpdate);
+    } else return httpResponse.Unauthorized(res, userUpdate);
+  } catch (error) {
+    next(error);
+  }
+
+}

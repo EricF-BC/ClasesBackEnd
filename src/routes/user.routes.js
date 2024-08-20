@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { loginController, registerController, logout , googleResponse, protectedSession, loginPostMan, profileController} from "../controllers/user.controller.js";
+import { loginController, registerController, logout , googleResponse, protectedSession, loginPostMan, profileController, updatePremiumController} from "../controllers/user.controller.js";
 import passport from "passport"
 // import { validateLogin } from "../middlewares/validateLogin.js"; 
 
@@ -15,7 +15,9 @@ router.get('/protected', protectedSession);
 
 router.post('/loginpost', loginPostMan);
 
-router.get('/profile', profileController); 
+router.get('/profile', profileController);
+
+router.post('/premium/:uid', updatePremiumController);
 
 
 

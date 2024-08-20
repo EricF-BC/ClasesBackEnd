@@ -1,6 +1,9 @@
-export default class UserDao {
-    constructor(model){
-        this.model = model;
+import MongoDao from "./mongo.dao.js";
+import { UserModel } from './models/user.model.js';
+
+export default class UserDao extends MongoDao {
+    constructor(){
+        super(UserModel);
     }
 
     async register(user){

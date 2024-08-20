@@ -1,6 +1,8 @@
 import CartServices from "../services/cart.services.js";
+import { HttpResponse } from "../utils/http.response.js";
 import Controllers from "./class.controller.js";
 
+const httpResponse = new HttpResponse();
 const cartService = new CartServices();
 
 export default class CartController extends Controllers {
@@ -31,8 +33,9 @@ export default class CartController extends Controllers {
     
     addProductToCart = async (req, res, next) => {
         try{
-            const { cartId } = req.session.user;
+            const { cartId, role } = req.session.user;
             const { id } = req.params;
+            if(role === 'premium') return httpResponse.Unauthorized(res, role);
             const newProdToUserCart = await this.service.addProductToCart(cartId._id, id);
             if (!newProdToUserCart) res.json({msg: 'Product or cart not found'});
             return res.json({msg: 'Producto agregado'})

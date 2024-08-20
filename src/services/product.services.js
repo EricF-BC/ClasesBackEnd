@@ -48,6 +48,15 @@ export default class ProductServices extends Services {
         }
     }
 
+    deleteProduct = async(id, obj) => {
+        try {
+            return await prodDao.update(id, obj);
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
+
+
 
 }
 

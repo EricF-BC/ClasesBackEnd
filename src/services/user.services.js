@@ -35,8 +35,7 @@ export const login = async (user) => {
 
 export const register = async (user) => {
   try {
-    const { email, password } = user;
-    const existUser = await getUserByEmail(email);
+ 
     if (!existUser) {
       const cartUser = await cartDao.createCart();
       if (email === config.USER_ADMIN && password === config.PASSWORD_ADMIN) {
@@ -76,10 +75,22 @@ export const infoSession = (req, res) => {
   });
 };
 
-// export const logout = (req, res) => {
-//   req.session.destroy();
-//   res.redirect("/views/login");
-// };
+
+export const updatePremium = async(id) => {
+  try {
+    const userExist = await userDao.getById(id);
+    if (!userExist) return null;
+    let newUser;
+    if (userExist.role === 'user'){
+      userExist.role = 'premium';
+    }else if (userExist.role === 'premium'){
+      userExist.role = 'user';
+    }
+    return await userDao.update(id, userExist);
+  } catch (error) {
+    throw new Error(error);
+  }
+}
 
 
 
