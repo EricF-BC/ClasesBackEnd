@@ -1,5 +1,8 @@
 import { HttpResponse } from "../utils/http.response.js";
 import * as services from "../services/user.services.js";
+import { sendMail } from "../services/email.services.js";
+import { createResponse } from "../path.js";
+import Controllers from "./class.controller.js";
 const httpResponse = new HttpResponse();
 
 export const registerController = (req, res, next) => {
@@ -67,6 +70,16 @@ export const loginPostMan = async (req, res) => {
   }
 };
 
+export const registerPostman = async (req, res) => {
+  try {
+    const newUser = await services.register(req.body);
+    if (!newUser) res.status(401).json({ msg: "Error de Registro" });
+    res.send("Registrado Satisfactoriamente");
+  } catch (error) {
+    res.status(401).send("ERROR con el registro");
+  }
+};
+
 export const profileController = async (req, res, next) => {
   try {
     if (req.session) {
@@ -88,6 +101,39 @@ export const updatePremiumController = async (req, res, next) => {
     } else return httpResponse.Unauthorized(res, userUpdate);
   } catch (error) {
     next(error);
+  }
+
+}
+
+export default class UserController extends Controllers{
+
+  generateResetPass = async(req, res, next) => {
+    try {
+      const user = req.session.user;
+      const token = await await services.generateResetPass(user);
+      if(token){
+        await sendMail(user, 'resetPass', token);
+        res.cookie('tokenpass', token);
+        createResponse(res, 200, 'Email reset pass send OK')
+      } else createResponse(res, 404, 'error email reset pass send')
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  updatePass = async(req, res, next) => {
+    try {
+      const user = req.session.user;
+      const { pass } = req.body;
+      const { tokenpass} = req.cookies;
+      if(!tokenpass) return createResponse(res, 401, 'Unauthorized');
+      const updatePass = await services.updatePass(pass, user)
+      if(!updatePass) return createResponse(res, 404, 'Cannot be the same');
+      res.clearCookie('tokenpass');
+      return createResponse(res, 200, updatePass);
+    } catch (error) {
+      next(error);
+    }
   }
 
 }

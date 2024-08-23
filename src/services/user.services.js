@@ -1,8 +1,18 @@
 import { createHash, isValidPassword } from "../path.js";
 import factory from '../persistence/daos/factory.js';
 import config from "../config.js";
+import { sendMail } from "./email.services.js";
+import jwt from "jsonwebtoken";
 
 const { userDao, cartDao } = factory;
+
+export const generateToken = async(user, time = "5m") => {
+  const payload = {
+    userId: user._id,
+  };
+  return jwt.sign(payload, config.SECRET_KEY, { expiresIn: time });
+}
+
 
 export const getUserById = async (id) => {
   try {
@@ -35,7 +45,8 @@ export const login = async (user) => {
 
 export const register = async (user) => {
   try {
- 
+    const { email, password } = user;
+    const existUser = await userDao.getByEmail(email);
     if (!existUser) {
       const cartUser = await cartDao.createCart();
       if (email === config.USER_ADMIN && password === config.PASSWORD_ADMIN) {
@@ -52,6 +63,7 @@ export const register = async (user) => {
           password: createHash(password),
           cartId: cartUser._id,
         });
+        await sendMail(user, 'register')
         return newUser;
       }
     } else return null;
@@ -93,4 +105,24 @@ export const updatePremium = async(id) => {
 }
 
 
+export const generateResetPass = async(user) => {
+  try {
+    return generateToken(user, '1h');
+  } catch (error) {
+    throw new Error(error);
+  }
+}
+
+
+export const updatePass = async(pass, user) => {
+  try {
+    const isEqual = isValidPassword(pass, user);
+    if(isEqual) return null;
+    const newPass = createHash(pass);
+    return await userDao.update(user._id, { password: newPass });
+  } catch (error) {
+    throw new Error(error);
+    
+  }
+}
 
