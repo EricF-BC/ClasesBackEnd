@@ -90,4 +90,4 @@ components:
     BearerAuth: 
       type: http
       scheme: bearer
-      bearerFormat: session
+      bearerFormat: cookie

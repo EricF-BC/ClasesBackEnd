@@ -118,8 +118,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Products/ErrorGetById'
-
-  /users/register:
+  /users/registerpost:
       post:
         tags: 
         - Users
@@ -137,7 +136,7 @@ paths:
               application/json:
                 schema: 
                   $ref: '#/components/parameters/schemas/User'
-  /users/login:
+  /users/loginpost:
     post:
       tags: 
       - Users
@@ -155,32 +154,6 @@ paths:
             application/json:
               schema: 
                 $ref: '#/components/schemas/Users/User'
-  /users/profile:
-    get:
-      tags:
-      - Users
-      summary: Datos del usuario autenticado
-      responses:
-        200:
-          description: Datos del usuario
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Users/profile'
-      security:
-        - BearerAuth: []
-  /users/profile-cookies:
-    get:
-      tags:
-      - Users
-      summary: Datos del usuario autenticado
-      responses:
-        200:
-          description: Datos del usuario
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Users/profile'  
   /carts/{id}:
     get:
       tags:

@@ -33,7 +33,8 @@ const storeConfig = {
   resave: false,
   saveUninitialized: true,
   cookie: {
-    maxAge: 180000
+    maxAge: 180000,
+    secure: false  
   }
 }
 
