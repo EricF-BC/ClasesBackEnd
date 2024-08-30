@@ -16,6 +16,10 @@ import "./passport/google-strategy.js";
 import config from "./config.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 import { logger } from "./utils/logger.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerJSDoc from "swagger-jsdoc";
+import { info } from './docs/info.js';
+
 
 const app = express();
 
@@ -35,6 +39,9 @@ const storeConfig = {
 
 const PORT = config.PORT;
 
+const specs = swaggerJSDoc(info);
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(specs))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());

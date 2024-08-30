@@ -1,0 +1,93 @@
+components:
+  parameters:
+      schemas:
+        Products:
+          type: object
+          required:
+            - title
+            - description
+            - price
+            - stock
+            - owner
+          properties:
+            title:
+              type: string
+              description: Titulo del producto.
+              example: "Producto 1"
+            description:
+              type: string
+              description: Descripcion del producto.
+              example: "Producto 1 es capaza de lorem"
+            price:
+              type: number
+              description: Precio del producto.
+              example: 5000
+            stock:
+              type: number
+              description: Cantidad de productos disponibles.
+              example: 100
+            owner:
+              type: string
+              description: Propietario del producto, se adjunta correo.
+              example: "intento@correo.com"
+        Cart:
+          type: object
+          required:
+            - id
+            - products
+          properties:
+            title:
+              type: object
+              description: Id del carrito
+              example: "cartId12345"
+            description:
+              type: lista
+              description: Lista de productos
+              example: 
+                products:
+                  - productId: "productId12345"
+                    quantity: 2
+        User:
+          type: object
+          required:
+            - first_name
+            - last_name
+            - age
+            - email
+            - password
+          properties:
+            first_name:
+              type: string
+              description: first_name
+            last_name:
+              type: string
+              description: last_name
+            age:
+              type: integer
+              description: age
+            email:
+              type: string
+              description: email address
+            password:
+              type: string
+              description: password
+        login: 
+          type: object
+          required:   
+            - email
+            - password
+          properties:  
+            email:
+              type: string
+              description: Email del usuario 
+            password:
+              type: string
+              description: Password del usuario
+          example:
+            email: juan@mail.com
+            password: abc123def456
+  securitySchemes:
+    BearerAuth: 
+      type: http
+      scheme: bearer
+      bearerFormat: session

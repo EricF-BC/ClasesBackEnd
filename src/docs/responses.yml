@@ -1,0 +1,123 @@
+components:
+  schemas:
+    Products:
+      Product:
+        type: object
+        properties:
+          title:
+            type: string
+            description: titulo del producto.
+          description:
+            type: string
+            description: Description del producto.
+          price:
+            type: number
+            description: Price del producto.
+          stock:
+            type: number
+            description: cantidad del producto.
+        example:
+          title: Nombre random
+          description: Description random
+          price: 5000
+          stock: 100
+      GetAllProducts:
+        type: array
+        items:
+          properties:
+            title:
+              type: string
+              description: titulo del producto.
+            description:
+              type: string
+              description: Description del producto.
+            price:
+              type: number
+              description: Price del producto.
+            stock:
+              type: number
+              description: cantidad del producto.
+      ErrorGetById:
+        type: object
+        properties:
+          message:
+            type: string
+            description: No se encontro el id en la base de datos
+        example:
+          msg: No se encontro el id 213123123 en la base de datos
+      DeleteById:
+        type: string
+        description: Producto eliminado
+      InternalServerError:
+        type: object
+        properties:
+          msg: 
+            type: string
+            description: Error del Servidor
+    Users:
+      User:
+        type: object
+        properties: 
+          status:
+            type: number
+            description: Código de estado de la petición
+          message:
+            type: string
+            description: Estado de la petición
+          data:
+            type: string
+            description: Token del usuario autenticado
+        example:
+          status: 200
+          message: Success
+          data: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU1MzZhZjU5ZGM3ZDcwZTczZDhjYWMiLCJpYXQiOjE2OTMzOTMzODIsImV4cCI6MTY5MzM5NDI4Mn0.3t3rqyv_3CPzd6yNnJgPvifmw2IBvY0Il7eqc4Zgh_w    
+      profile:
+        type: object
+        properties:
+          status:
+            type: number
+            description: Código de estado de la petición
+          message:
+            type: string
+            description: Estado de la petición
+          data:
+            type: object
+            description: Datos del usuario autenticado          
+        example:
+          status: 200
+          message: Success
+          data: data
+    Carts:
+      Cart:
+        type: object
+        properties:
+          id:
+            type: string
+            description: id del carrito
+          products:
+            type: list
+            description: productos y cantidad en carrito
+      GetAllCarts:
+        type: array
+        items:
+          properties:
+            id:
+              type: string
+              description: id del carrito.
+            products:
+              type: list
+              description: Lista de productos.
+      ErrorGetById:
+        type: object
+        properties:
+          message:
+            type: string
+            description: No se encontro el id en la base de datos
+        example:
+          msg: No se encontro el id 213123123 en la base de datos
+      InternalServerError:
+        type: object
+        properties:
+          msg: 
+            type: string
+            description: Error del Servidor

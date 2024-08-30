@@ -1,0 +1,228 @@
+paths:
+  /products:
+    post:
+      tags:
+        - Producto
+      summary: Registro de Producto nuevo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/Products'
+        required: true
+      responses:
+        200:
+          description: Se registró el producto correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products/Product'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products/InternalServerError'
+    get:
+      tags:
+        - Producto
+      summary: Lista de productos
+      responses:
+        200:
+          description: Lista de productos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products/GetAllProducts'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products/InternalServerError'
+  /products/{id}:
+    get:
+      tags:
+        - Producto
+      summary: Busca producto por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID referente del producto
+          schema:
+            type: string
+      responses:
+        200:
+          description: Producto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products/Product'
+        404:
+          description: No se encuentra el producto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products/ErrorGetById'
+    put:
+      tags:
+        - Producto
+      summary: Editar producto por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID referente del producto
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/parameters/schemas/Products'
+      responses:
+        200:
+          description: Producto editado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products/Product'
+        404:
+          description: No se encuentra el producto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products/ErrorGetById'
+    delete:
+      tags:
+        - Producto
+      summary: Borrar producto por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID referente del producto
+          schema:
+            type: string
+      responses:
+        200:
+          description: Producto Eliminado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products/Product'
+        404:
+          description: No se encuentra el producto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products/ErrorGetById'
+
+  /users/register:
+      post:
+        tags: 
+        - Users
+        summary: Registro de usuario  
+        requestBody:  
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/parameters/schemas/User'
+          required: true
+        responses:  
+          200:
+            description: Register success
+            content: 
+              application/json:
+                schema: 
+                  $ref: '#/components/parameters/schemas/User'
+  /users/login:
+    post:
+      tags: 
+      - Users
+      summary: Login de usuario  
+      requestBody:  
+        content:
+          application/json:
+            schema: 
+              $ref: '#/components/parameters/schemas/login'
+        required: true
+      responses:  
+        200:
+          description: Login success
+          content: 
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/Users/User'
+  /users/profile:
+    get:
+      tags:
+      - Users
+      summary: Datos del usuario autenticado
+      responses:
+        200:
+          description: Datos del usuario
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users/profile'
+      security:
+        - BearerAuth: []
+  /users/profile-cookies:
+    get:
+      tags:
+      - Users
+      summary: Datos del usuario autenticado
+      responses:
+        200:
+          description: Datos del usuario
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users/profile'  
+  /carts/{id}:
+    get:
+      tags:
+        - Carts
+      summary: Busca carrito por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID referente del carrito
+          schema:
+            type: string
+      responses:
+        200:
+          description: carrito encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carts/Cart'
+        404:
+          description: No se encuentra el carrito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carts/ErrorGetById'
+  /carts:
+    get:
+      tags:
+        - Carts
+      summary: Lista de carritos
+      responses:
+        200:
+          description: Lista de carritos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carts/GetAllCarts'
+        500:
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Carts/InternalServerError'
+
+
