@@ -78,7 +78,7 @@ const httpServer = app.listen(PORT, () =>
 );
 const socketServer = new Server(httpServer);
 
-
+export default app;
 // let products = [];
 
 // const loadProducts = async () => {
