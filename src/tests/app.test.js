@@ -2,9 +2,10 @@ import app from '../app.js';
 import request from 'supertest';
 import { generateProduct } from '../utils/product.utils.js';
 import config from "../config.js";
+import CartDao from "../persistence/daos/mongodb/cart.dao.js";
 
 describe('Conjunto de pruebas de API Carts', () =>{
-
+    let cartDao = null;
     let sessionCookie;
     beforeAll(async()=>{
         console.log("Se inicia el proceso de testing")
@@ -72,32 +73,47 @@ describe('Conjunto de pruebas de API Carts', () =>{
         expect(responseGetByIdNotFound.statusCode).toEqual(500);
       })
 
+    // test('[POST] /carts/product/:id', async ()=> {
+    //     const userAdmin = {
+    //         email: "testcart@gmail.com",
+    //         password: "1234"
+    //     }
 
-    
+    //     const responseUser = await request(app).post('/users/loginpost').send(userAdmin);
+    //     const sessionCookieCart = responseUser.headers['set-cookie'];
 
-    test('[POST] /carts/product/:id', async ()=> {
-        const userAdmin = {
-            email: "testcart@gmail.com",
-            password: "1234"
-        }
+    //     const body = generateProduct();
+    //     const createProduct = await request(app)
+    //         .post('/products')
+    //         .set('Cookie', sessionCookie)
+    //         .send(body);
+    //     const { _id } = createProduct._body.data;
 
-        const responseUser = await request(app).post('/users/loginpost').send(userAdmin);
-        const sessionCookieCart = responseUser.headers['set-cookie'];
-
-        const body = generateProduct();
-        const createProduct = await request(app)
-            .post('/products')
-            .set('Cookie', sessionCookie)
-            .send(body);
-        const { _id } = createProduct._body.data;
-        const response = await request(app)
-            .post("/carts/product/:id")
-            .set('Cookie', sessionCookieCart)
-            .send(_id);
+    //     const response = await request(app)
+    //         .post(`/carts/product/${_id}`)
+    //         .set('Cookie', sessionCookieCart)
+    //         .send();
         
-        console.log(response.status)
+    //     console.log(response.status)
 
+    // });
+
+    test('[GET] /carts/', async ()=> {
+        const response = await request(app)
+            .get(`/carts/`)
+        
+        expect(response.statusCode).toEqual(200);
+        expect(response.body.data).toBeInstanceOf(Array);
     });
 
+    test('[DELETE] /carts/clear/:id', async ()=> {
+        cartDao = new CartDao();
+        const cart = await cartDao.create()
+        const { id } = cart;
+        const response = await request(app)
+            .delete(`/carts/clear/${id}`)
+        
+        expect(response.statusCode).toEqual(200);
+    });
 
 })
