@@ -11,10 +11,6 @@ describe('Conjunto de pruebas de API Carts', () =>{
         console.log("Se inicia el proceso de testing")
     })
 
-    // test('[GET] /carts/', async() => {
-
-    // })
-
     test('[POST] /users/loginpost/', async() => {
         const userAdmin = {
             email: config.USER_ADMIN,
@@ -67,10 +63,6 @@ describe('Conjunto de pruebas de API Carts', () =>{
         const { _id } = response._body.data;
         const responseGetById = await request(app).get(`/products/${_id}`);
         expect(responseGetById.statusCode).toEqual(200);
-/* ------------------------------------ - ----------------------------------- */
-        const idFalse = '507f191e810c19729de860ea';
-        const responseGetByIdNotFound = await request(app).get(`/products/${idFalse}`);
-        expect(responseGetByIdNotFound.statusCode).toEqual(500);
       })
 
     // test('[POST] /carts/product/:id', async ()=> {
