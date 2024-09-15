@@ -26,7 +26,7 @@ export default class CartServices extends Services {
     
     removeProductFromCart = async (idCart, idProduct) => {
         try {
-            const cartExist = await this.dao.getByID(idCart);
+            const cartExist = await this.dao.getById(idCart);
             const prodExist = cartExist.products.find(p => p.product._id.toString() === idProduct)
             if(!cartExist || !prodExist) return null;
             return await cartDao.DeleteProductCart(idCart, idProduct);
@@ -39,7 +39,7 @@ export default class CartServices extends Services {
     
     updateQuantityToCart = async (idCart, idProduct, quantity) => {
         try {
-            const cartExist = await this.dao.getByID(idCart);
+            const cartExist = await this.dao.getById(idCart);
             const prodExist = cartExist.products.find(p => p.product._id.toString() === idProduct)
             if(!cartExist || !prodExist) return null;
             return await this.dao.updateProdQuantityToCart(idCart, idProduct, quantity);

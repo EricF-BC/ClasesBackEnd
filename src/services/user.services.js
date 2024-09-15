@@ -37,6 +37,7 @@ export const login = async (user) => {
     if (!userExist) return null;
     const passValid = isValidPassword(password, userExist);
     if (!passValid) return null;
+    await userDao.updateLastConnection(userExist._id);
     return userExist;
   } catch (err) {
     throw new Error(err);

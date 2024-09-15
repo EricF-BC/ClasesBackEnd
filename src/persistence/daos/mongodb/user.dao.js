@@ -29,7 +29,21 @@ export default class UserDao extends MongoDao {
         try {
             return await this.model.findOne({ email });
         } catch (error) {
-            
+            throw new Error(error);
         }
     };
+
+    async updateLastConnection (id){
+        try {
+            const user = await this.model.findById(id).lean(false);
+            if (!user) return null;
+            await this.model.findByIdAndUpdate(
+                id, 
+                { last_connection: new Date() }, 
+                { new: true } // Esto devuelve el documento actualizado
+            );
+        } catch (error) {
+            throw new Error(error);
+        }
+      };
 }

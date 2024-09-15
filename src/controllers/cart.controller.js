@@ -68,7 +68,7 @@ export default class CartController extends Controllers {
             const { cid } = req.params;
             const { pid } = req.params;
             const { quantity } = req.body;
-            const updateProdToUserCart = await this.service.updateQuantityToCart(cid, pid, quantity);
+            const updateProdToUserCart = await cartService.updateQuantityToCart(cid, pid, quantity);
     
             if (!updateProdToUserCart) res.json({msg: 'Error to update Product from Cart'});
             else res.json({msg: `Successfully updated ${pid} Product`});

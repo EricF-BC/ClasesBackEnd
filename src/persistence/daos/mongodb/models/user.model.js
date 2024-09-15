@@ -38,6 +38,9 @@ const UserSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'cart', 
         default: []
+    },
+    last_connection: {
+        type: Date
     }
 
 

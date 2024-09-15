@@ -65,30 +65,19 @@ describe('Conjunto de pruebas de API Carts', () =>{
         expect(responseGetById.statusCode).toEqual(200);
       })
 
-    // test('[POST] /carts/product/:id', async ()=> {
-    //     const userAdmin = {
-    //         email: "testcart@gmail.com",
-    //         password: "1234"
-    //     }
-
-    //     const responseUser = await request(app).post('/users/loginpost').send(userAdmin);
-    //     const sessionCookieCart = responseUser.headers['set-cookie'];
-
-    //     const body = generateProduct();
-    //     const createProduct = await request(app)
-    //         .post('/products')
-    //         .set('Cookie', sessionCookie)
-    //         .send(body);
-    //     const { _id } = createProduct._body.data;
-
-    //     const response = await request(app)
-    //         .post(`/carts/product/${_id}`)
-    //         .set('Cookie', sessionCookieCart)
-    //         .send();
+    test('[PUT] /carts/:cid/product/:id', async ()=> {
+        const cartId = '66da81f8459050d37182b05f'
+        const prodId = '66b197d639d9cbe7ef2b6188'
+        const body = {
+            quantity: 5
+        }
+        const response = await request(app)
+            .put(`/carts/${cartId}/product/${prodId}`)
+            .send(body);
         
-    //     console.log(response.status)
+        console.log(response.status)
 
-    // });
+    });
 
     test('[GET] /carts/', async ()=> {
         const response = await request(app)
