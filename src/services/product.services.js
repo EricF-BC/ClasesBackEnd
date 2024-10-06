@@ -34,7 +34,7 @@ export default class ProductServices extends Services {
 
     getAllViews = async () => {
         try {
-            return await prodDao.getProductsView();
+            return await this.dao.getProductsView();
         } catch (e) {
             throw new Error(e);
         }
@@ -50,12 +50,11 @@ export default class ProductServices extends Services {
 
     deleteProduct = async(id, obj) => {
         try {
-            return await prodDao.update(id, obj);
+            return await this.dao.update(id, obj);
         } catch (error) {
             throw new Error(error);
         }
     }
-
 
 
 }

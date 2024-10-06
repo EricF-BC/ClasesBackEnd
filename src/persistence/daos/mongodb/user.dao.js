@@ -1,5 +1,6 @@
 import MongoDao from "./mongo.dao.js";
 import { UserModel } from './models/user.model.js';
+import { subDays } from 'date-fns';
 
 export default class UserDao extends MongoDao {
     constructor(){
@@ -46,4 +47,21 @@ export default class UserDao extends MongoDao {
             throw new Error(error);
         }
       };
+
+
+    async deleteInactiveUsers() {
+        try {
+            const twoDaysAgo = subDays(new Date(), 2);
+            const result = await this.model.deleteMany({
+                $or: [
+                    { last_connection: { $lt: twoDaysAgo } }, // Usuarios con last_connection hace más de 2 días
+                    { last_connection: { $exists: false } },  // Usuarios sin last_connection
+                    { last_connection: null }                 // Usuarios con last_connection nulo
+                ]
+            });
+            return result;
+        } catch (error) {
+            throw new Error(error);
+        }
+    }
 }

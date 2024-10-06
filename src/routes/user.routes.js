@@ -1,58 +1,59 @@
 import { Router } from "express";
-import { loginController,
-        registerController,
-        logout,
-        googleResponse, 
-        protectedSession, 
-        loginPostMan, 
-        profileController,
-        updatePremiumController,
-        registerPostman
-        } from "../controllers/user.controller.js";
-import passport from "passport"
 import { isAuthSession } from "../middlewares/isAuth.js";
 import UserController from '../controllers/user.controller.js';
+import { checkAdmin } from "../middlewares/checkAdmin.js"
+// import {
+//         googleResponse
+//         } from "../controllers/user.controller.js";
+// import passport from "passport"
+
 
 const controller = new UserController();
-
 const router = Router();
 
-//router.post('/login', passport.authenticate('login'), loginController);
+router.post('/registerpost', controller.registerPostman)
 
-router.post('/register', passport.authenticate('register'), registerController)
+router.get('/protected', [isAuthSession] ,controller.protectedSession); 
 
-router.post('/registerpost', registerPostman)
+router.post('/loginpost', controller.loginPostMan);
 
-router.post('/logout', logout); 
+router.get('/profile', [isAuthSession] ,controller.profileController);
 
-router.get('/protected', protectedSession); 
+router.post('/premium/:uid', controller.updatePremiumController);
 
-router.post('/loginpost', loginPostMan);
-
-router.get('/profile', profileController);
-
-router.post('/premium/:uid', updatePremiumController);
+router.post('/logout', [isAuthSession] ,controller.logout); 
 
 router.post('/reset-pass', [isAuthSession] ,controller.generateResetPass)
 
+router.get('/', [checkAdmin] ,controller.getAllUsersDto);
+
+router.delete('/', [checkAdmin] ,controller.deleteInactiveUsers);
+
 router.put('/newpass', [isAuthSession] ,controller.updatePass)
 
+
+
+// ESTAS RUTAS SON PARA LAS VISTAS, PUEDE REVISARLAS SI QUIERE.
+//router.post('/login', passport.authenticate('login'), loginController);
+// router.post('/register', passport.authenticate('register'), registerController)
+
 ////// REGISTRO Y LOGIN CON GITHUB Y GOOGLE /////////////
-router.get('/register-github', passport.authenticate('github', { scope: ['user:email'] }));
 
-router.get('/profile', passport.authenticate('github', {
-    failureRedirect: '/views/login',
-    successRedirect: '/views/products',
-    passReqToCallback: true
-}));
+// router.get('/register-github', passport.authenticate('github', { scope: ['user:email'] }));
 
-router.get('/oauth2/redirect/accounts.google.com', passport.authenticate('google', { assignProperty: 'user' }), googleResponse)
+// router.get('/profile', passport.authenticate('github', {
+//     failureRedirect: '/views/login',
+//     successRedirect: '/views/products',
+//     passReqToCallback: true
+// }));
 
-router.get('/profile', passport.authenticate('google', {
-    failureRedirect: '/views/login',
-    successRedirect: '/views/products',
-    passReqToCallback: true
-}));
+// router.get('/oauth2/redirect/accounts.google.com', passport.authenticate('google', { assignProperty: 'user' }), googleResponse)
+
+// router.get('/profile', passport.authenticate('google', {
+//     failureRedirect: '/views/login',
+//     successRedirect: '/views/products',
+//     passReqToCallback: true
+// }));
 
 
 export default router;

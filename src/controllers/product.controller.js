@@ -1,6 +1,9 @@
 import ProductServices from "../services/product.services.js";
 import { HttpResponse } from "../utils/http.response.js";
 import Controllers from "./class.controller.js";
+import { transporterGmail } from '../services/email.services.js';
+import config from "../config.js";
+import { template } from '../services/email.template.js';
 
 const httpResponse = new HttpResponse();
 const prodService = new ProductServices();
@@ -59,6 +62,13 @@ export default class ProductController extends Controllers {
             if (!productExists) return httpResponse.NotFound(res, productExists);
             if(productExists.owner !== req.session.user.email && req.session.user.role !== "admin") return httpResponse.Unauthorized(res, productExists);
             const data = await this.service.delete(id);
+            const gmailOptions = {
+                from: config.EMAIL_GMAIL,
+                to: productExists.owner,
+                subject: `Producto eliminado: ${productExists.title}`,
+                html: template(productExists.owner)
+             }
+            const response = await transporterGmail.sendMail(gmailOptions);
             if(!data) return httpResponse.NotFound(res, data);
               else return httpResponse.Ok(res, data);
           } catch (error) {
