@@ -15,7 +15,7 @@ export default class TicketController extends Controllers {
       const user = req.session.user;
       const ticket = await ticketService.generateTicket(user);
       if(!ticket) createResponse(res, 404, 'Error generate ticket');
-      else httpResponse(res, ticket);
+      else httpResponse.Ok(res, ticket);
     } catch (error) {
       next(error);
     }

@@ -14,7 +14,7 @@ export default class TicketService extends Services {
 
   async generateTicket(user) {
     try {
-      const cart = await cartService.getById(user.cartId._id);
+      const cart = await cartService.getById(user.cartId);
       if (!cart) return null;
       let amountAcc = 0;
       if (cart.products.length > 0) {
@@ -28,15 +28,13 @@ export default class TicketService extends Services {
           } else return null;
         }
       }
-
       const ticket = await this.dao.create({
         code: `${Math.floor(Math.random() * 1000)}`,
         purchase_datetime: new Date().toLocaleString(),
         amount: amountAcc,
         purchaser: user.email,
       });
-
-      await cartService.clearProductsFromCart(user.cartId._id);
+      await cartService.clearProductsFromCart(user.cartId);
       return ticket;
     } catch (error) {
       throw new Error(error);

@@ -33,10 +33,11 @@ export default class CartController extends Controllers {
     
     addProductToCart = async (req, res, next) => {
         try{
+            
             const { cartId, role } = req.session.user;
             const { id } = req.params;
             if(role === 'premium') return httpResponse.Unauthorized(res, role);
-            const newProdToUserCart = await this.service.addProductToCart(cartId._id, id);
+            const newProdToUserCart = await this.service.addProductToCart(cartId, id);
             if (!newProdToUserCart) res.json({msg: 'Product or cart not found'});
             return res.json({msg: 'Producto agregado'})
         } catch(error){
@@ -49,9 +50,9 @@ export default class CartController extends Controllers {
     
     deleteProductFromCartController = async (req, res, next) => {
         try{
-            const { cid } = req.params;
+            const { cartId } = req.session.user;
             const { pid } = req.params;
-            const delProdToUserCart = await this.service.removeProductFromCart(cid, pid);
+            const delProdToUserCart = await this.service.removeProductFromCart(cartId, pid);
     
             if (!delProdToUserCart) res.json({msg: 'Error  to remove Product from Cart'});
             else res.json({msg: `Successfully deleted ${pid} Product`});
@@ -65,10 +66,11 @@ export default class CartController extends Controllers {
     
     updateProdQuantityToCartController = async (req, res, next) => {
         try{
-            const { cid } = req.params;
+            const { cartId } = req.session.user;
             const { pid } = req.params;
             const { quantity } = req.body;
-            const updateProdToUserCart = await cartService.updateQuantityToCart(cid, pid, quantity);
+            console.log(cartId, pid, quantity);
+            const updateProdToUserCart = await cartService.updateQuantityToCart(cartId, pid, quantity);
     
             if (!updateProdToUserCart) res.json({msg: 'Error to update Product from Cart'});
             else res.json({msg: `Successfully updated ${pid} Product`});
@@ -81,8 +83,8 @@ export default class CartController extends Controllers {
     
     
     clearProductsFromCartController = async (req, res) => {
-        const { cid } = req.params;
-        const clearCart = await this.service.clearProductsFromCart(cid);
+        const { cartId } = req.session.user;
+        const clearCart = await this.service.clearProductsFromCart(cartId);
     
         if (!clearCart) res.json({msg: 'Error to clear Cart'});
         else res.json(clearCart);

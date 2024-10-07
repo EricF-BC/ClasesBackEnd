@@ -38,6 +38,7 @@ export default class Controllers {
 
   update = async(req, res, next) => {
     try {
+      console.log("HOLA")
       const { id } = req.params;
       const data = await this.service.update(id, req.body);
       if(!data) return httpResponse.NotFound(res, data);

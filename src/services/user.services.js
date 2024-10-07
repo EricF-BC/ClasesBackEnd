@@ -7,7 +7,7 @@ import UserRepository from '../persistence/repository/user.repository.js';
 import Services from './class.services.js';
 
 const userRepository = new UserRepository();
-const { userDao } = factory;
+const { userDao, cartDao } = factory;
 
 export default class UserServices extends Services {
   constructor(){
@@ -57,7 +57,7 @@ export default class UserServices extends Services {
       const { email, password } = user;
       const existUser = await this.dao.getByEmail(email);
       if (!existUser) {
-        const cartUser = await this.dao.createCart();
+        const cartUser = await cartDao.createCart();
         if (email === config.USER_ADMIN && password === config.PASSWORD_ADMIN) {
           const newUser = await this.dao.register({
             ...user,

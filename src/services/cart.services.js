@@ -1,3 +1,4 @@
+import { ConnectionClosedEvent } from 'mongodb';
 import factory from '../persistence/daos/factory.js';
 import Services from './class.services.js';
 const { prodDao, cartDao } = factory;
@@ -52,7 +53,7 @@ export default class CartServices extends Services {
     
     clearProductsFromCart = async (idCart) => {
         try {
-            const cartExist = await this.dao.getByID(idCart);
+            const cartExist = await this.dao.getById(idCart);
             if(!cartExist) return null;
             return await cartDao.clearCart(idCart);
         } catch (error) {

@@ -42,7 +42,7 @@ export default class ProductController extends Controllers {
         } catch (error) {
             next(error);
         }
-    
+
     }
 
     getProdById = async (req, res, next) => {
@@ -50,7 +50,7 @@ export default class ProductController extends Controllers {
             const { id } = req.params;
             const data = await this.service.getProdById(id);
             return httpResponse.Ok(res, data);
-        } catch (error) {   
+        } catch (error) {
             next(error);
         }
     }
@@ -62,20 +62,22 @@ export default class ProductController extends Controllers {
             if (!productExists) return httpResponse.NotFound(res, productExists);
             if(productExists.owner !== req.session.user.email && req.session.user.role !== "admin") return httpResponse.Unauthorized(res, productExists);
             const data = await this.service.delete(id);
-            const gmailOptions = {
-                from: config.EMAIL_GMAIL,
-                to: productExists.owner,
-                subject: `Producto eliminado: ${productExists.title}`,
-                html: template(productExists.owner)
-             }
-            const response = await transporterGmail.sendMail(gmailOptions);
+            if(productExists.owner !== 'admin') {
+                const gmailOptions = {
+                    from: config.EMAIL_GMAIL,
+                    to: productExists.owner,
+                    subject: `Producto eliminado: ${productExists.title}`,
+                    html: template(productExists.owner)
+                }
+                await transporterGmail.sendMail(gmailOptions);
+                }
             if(!data) return httpResponse.NotFound(res, data);
               else return httpResponse.Ok(res, data);
           } catch (error) {
             next(error);
           }
     }
-    
+
 }
 
 

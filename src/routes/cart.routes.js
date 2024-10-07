@@ -9,15 +9,12 @@ router.get('/', controller.getAll);
 
 router.get('/:id', controller.getById)
 
-router.post('/product/:id', [ isAuthSession ] , controller.addProductToCart);
+router.post('/product/:id', [ isAuthSession ] ,controller.addProductToCart);
 
-router.put('/addProduct', controller.getById);
+router.delete('/product/:pid', [ isAuthSession ] ,controller.deleteProductFromCartController)
 
-router.delete('/:id/product/:pid', controller.deleteProductFromCartController)
+router.delete('/clear/',[ isAuthSession ] ,controller.clearProductsFromCartController)
 
-router.delete('/clear/:id', controller.clearProductsFromCartController)
-
-router.put('/:id/product/:id', controller.updateProdQuantityToCartController)
-
+router.put('/product/:pid', [ isAuthSession ] ,controller.updateProdQuantityToCartController)
 
 export default router;
